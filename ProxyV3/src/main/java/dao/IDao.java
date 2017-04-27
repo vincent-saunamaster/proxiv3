@@ -12,5 +12,5 @@ public interface IDao {
 	public void majClient(Client cl);
 	public Collection<Client> listerClient();
 	public Collection<Client> findClientByMC(String mc);
-	public ConseillerClient authentification(String login, String password);
+	public ConseillerClient authentification(ConseillerClient cons);
 }

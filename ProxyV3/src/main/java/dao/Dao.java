@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
@@ -28,7 +29,13 @@ public class Dao implements IDao {
 	@Override
 	public Collection<Client> listerClient() {
 		EntityManager em = emf.createEntityManager();
-		Collection<Client> clients = em.createNamedQuery("Client.findAll").getResultList();
+		Collection<Client> clients = new ArrayList<Client>();
+		try {
+			clients = em.createNamedQuery("Client.findAll").getResultList();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		em.close();
 		return clients;
 	}
@@ -51,7 +58,14 @@ public class Dao implements IDao {
 		Query q1 = em.createNamedQuery("Client.findByMC");
 		q1.setParameter("etiquette1", "%" + mc + "%");
 		q1.setParameter("etiquette2", "%" + mc + "%");
-		Collection<Client> clients = (Collection<Client>) q1.getResultList();
+
+		Collection<Client> clients = new ArrayList<Client>();
+		try {
+			clients = (Collection<Client>) q1.getResultList();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		em.close();
 		return clients;
 	}
@@ -67,25 +81,22 @@ public class Dao implements IDao {
 	}
 
 	@Override
-	public ConseillerClient authentification(String login, String password) {
+	public ConseillerClient authentification(ConseillerClient cons) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		ConseillerClient leCon;
-
 		Query q1 = em.createNamedQuery("Conseiller.findByPWD");
-		q1.setParameter("etiquette1", login);
-		q1.setParameter("etiquette2", password);
+		q1.setParameter("etiquette1", cons.getLogin());
+		q1.setParameter("etiquette2", cons.getPassword());
 		try {
-			leCon = (ConseillerClient) q1.getSingleResult();
+			cons = (ConseillerClient) q1.getSingleResult();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			leCon = null;
 		}
 		tx.commit();
 		em.close();
-		return leCon;
+		return cons;
 	}
 
 }

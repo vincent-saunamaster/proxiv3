@@ -8,7 +8,7 @@ import metier.ConseillerClient;
 
 public interface IConseillerClientService {
 
-	public ConseillerClient authentification(String login , String password);
+	public ConseillerClient authentification(ConseillerClient cons);
 	public void addClient(Client cl);
 	public void majClient(Client cl);
 	public void deleteClient(Client cl);

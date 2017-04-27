@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
@@ -16,24 +17,19 @@ import service.IConseillerClientService;
 @ViewScoped
 public class ClientBean {
 
-	//@Inject
+	// @Inject
 	private IConseillerClientService service = new ConseillerClientService();
-	
-	//placeholder
+
+	// placeholder
 	private Client client = new Client();
-	
+
+	@ManagedProperty(value = "#{authentification}")
 	private AuthentificationBean auth;
-	
+
 	private boolean editMode = false;
-	
-	
 
 	public AuthentificationBean getAuth() {
 		return auth;
-	}
-
-	public void setAuth(AuthentificationBean auth) {
-		this.auth = auth;
 	}
 
 	public Client getClient() {
@@ -44,13 +40,13 @@ public class ClientBean {
 		this.client = client;
 	}
 
-//	public IConseillerClientService getServices() {
-//		return service;
-//	}
-//
-//	public void setServices(IConseillerClientService services) {
-//		this.service = services;
-//	}
+	// public IConseillerClientService getServices() {
+	// return service;
+	// }
+	//
+	// public void setServices(IConseillerClientService services) {
+	// this.service = services;
+	// }
 
 	public boolean isEditMode() {
 		return editMode;
@@ -63,6 +59,9 @@ public class ClientBean {
 	public String add() {
 		if (!client.getNom().equalsIgnoreCase("") && !client.getPrenom().equalsIgnoreCase("")) {
 			if (editMode == false) {
+
+				client.setConseiller(auth.getConseiller());
+
 				service.addClient(client);
 			} else {
 				service.majClient(client);
@@ -70,14 +69,18 @@ public class ClientBean {
 			}
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("client", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Veuillez saisir les valeurs non nulles", null));
+			context.addMessage("client",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Veuillez saisir les valeurs non nulles", null));
 		}
 		client = new Client();
 		return "accueilConseiller";
 	}
 
 	public Collection<Client> list() {
-		return service.listerClient();
+		
+		return auth.getConseiller().getClient();
+		
+		//return service.listerClient();
 	}
 
 	public void delete() {

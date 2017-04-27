@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "Conseiller.findByPWD", query = "SELECT c FROM ConseillerClient c where c.login = :etiquette1 AND c.password = :etiquette2")
+@NamedQuery(name = "Conseiller.findByPWD", query = "SELECT c FROM ConseillerClient c where c.login=:etiquette1 AND c.password=:etiquette2")
 @DiscriminatorValue("CONSEILLER")
 public class ConseillerClient extends Personne {
 

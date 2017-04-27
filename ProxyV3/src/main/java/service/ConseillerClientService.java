@@ -16,8 +16,8 @@ public class ConseillerClientService implements IConseillerClientService {
 	private IDao idao = new Dao();
 
 	@Override
-	public ConseillerClient authentification(String login, String password) {
-		return idao.authentification(login,password);
+	public ConseillerClient authentification(ConseillerClient cons) {
+		return idao.authentification(cons);
 		// TODO Auto-generated method stub
 		
 	}
