@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Accueil Conseiller</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<body>
+	<h:form>
+		<h:messages errorClass="error" />
+		<h:panelGrid columns="2" cellpadding="5">
+			<h:outputLabel value="nom" />
+			<h:inputText id="nom" value="#{clientBean.client.nom}" />
+			<h:outputLabel value="prenom" />
+			<h:inputText id="prenom" value="#{clientBean.client.prenom}" />
+			<h:outputLabel value="adresse" />
+			<h:inputText id="adresse" value="#{clientBean.client.adresse}" />
+			<h:outputLabel value="codePostal" />
+			<h:inputText id="codePostal" value="#{clientBean.client.codePostal}" />
+			<h:outputLabel value="ville" />
+			<h:inputText id="ville" value="#{clientBean.client.ville}" />
+			<h:outputLabel value="telephone" />
+			<h:inputText id="telephone" value="#{clientBean.client.telephone}" />
+			<h:outputLabel value="typeClient" />
+			<h:selectOneRadio id="typeClient"
+				value="#{clientBean.client.typeClient}">
+				<f:selectItem itemValue="particulier" itemLabel="Particulier" />
+				<f:selectItem itemValue="entreprise" itemLabel="Entreprise" />
+			</h:selectOneRadio>
+		</h:panelGrid>
+		<h:commandButton action="#{clientBean.add}"
+			value="#{clientBean.editMode ? 'Modifier':'Ajouter'}" />
+		<h2>Liste des clients</h2>
+		<h:dataTable value="#{clientBean.list()}" var="c" border="1">
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				<h:outputText value="#{c.id}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">NOM</f:facet>
+				<h:outputText value="#{c.nom}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">PRENOM</f:facet>
+				<h:outputText value="#{c.prenom}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">SUPPRIMER</f:facet>
+				<h:commandLink action="#{clientBean.delete}" value="Supprimer">
+					<f:setPropertyActionListener target="#{clientBean.client}"
+						value="#{c}" />
+				</h:commandLink>
+			</h:column>
+			<h:column>
+				<f:facet name="header">MAJ</f:facet>
+				<h:commandLink action="#{clientBean.maj}" value="Maj">
+					<f:setPropertyActionListener target="#{clientBean.client}"
+						value="#{c}" />
+				</h:commandLink>
+			</h:column>
+		</h:dataTable>
+	</h:form>
+</body>
+</html>

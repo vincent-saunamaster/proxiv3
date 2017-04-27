@@ -26,7 +26,7 @@ public class Dao implements IDao {
 	}
 
 	@Override
-	public Collection<Client> listClients() {
+	public Collection<Client> listerClient() {
 		EntityManager em = emf.createEntityManager();
 		Collection<Client> clients = em.createNamedQuery("Client.findAll").getResultList();
 		em.close();
@@ -67,15 +67,25 @@ public class Dao implements IDao {
 	}
 
 	@Override
-	public Collection<Client> listerClient() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ConseillerClient authentification(String login, String password) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		ConseillerClient leCon;
 
-	@Override
-	public ConseillerClient authentification(String login, int password) {
-		// TODO Auto-generated method stub
-		return null;
+		Query q1 = em.createNamedQuery("Conseiller.findByPWD");
+		q1.setParameter("etiquette1", login);
+		q1.setParameter("etiquette2", password);
+		try {
+			leCon = (ConseillerClient) q1.getSingleResult();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			leCon = null;
+		}
+		tx.commit();
+		em.close();
+		return leCon;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import dao.Dao;
 import dao.IDao;
 import metier.Client;
 import metier.Compte;
@@ -11,11 +12,11 @@ import metier.ConseillerClient;
 
 public class ConseillerClientService implements IConseillerClientService {
 	
-	@Inject
-	private IDao idao;
+	//@Inject
+	private IDao idao = new Dao();
 
 	@Override
-	public ConseillerClient authentification(String login, int password) {
+	public ConseillerClient authentification(String login, String password) {
 		return idao.authentification(login,password);
 		// TODO Auto-generated method stub
 		
@@ -72,5 +73,6 @@ public class ConseillerClientService implements IConseillerClientService {
 		// TODO Auto-generated method stub
 		return idao.findClientByMC(mc);
 	}
+
 
 }

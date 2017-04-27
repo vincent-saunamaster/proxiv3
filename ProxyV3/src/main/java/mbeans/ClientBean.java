@@ -3,23 +3,38 @@ package mbeans;
 import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import metier.Client;
+import service.ConseillerClientService;
 import service.IConseillerClientService;
 
-@Named
+@ManagedBean
+//@Named
 @ViewScoped
 public class ClientBean {
 
-	@Inject
-	private IConseillerClientService service;
+	//@Inject
+	private IConseillerClientService service = new ConseillerClientService();
 	
+	//placeholder
 	private Client client = new Client();
+	
+	private AuthentificationBean auth;
+	
 	private boolean editMode = false;
+	
+	
+
+	public AuthentificationBean getAuth() {
+		return auth;
+	}
+
+	public void setAuth(AuthentificationBean auth) {
+		this.auth = auth;
+	}
 
 	public Client getClient() {
 		return client;
@@ -29,13 +44,13 @@ public class ClientBean {
 		this.client = client;
 	}
 
-	public IConseillerClientService getServices() {
-		return service;
-	}
-
-	public void setServices(IConseillerClientService services) {
-		this.service = services;
-	}
+//	public IConseillerClientService getServices() {
+//		return service;
+//	}
+//
+//	public void setServices(IConseillerClientService services) {
+//		this.service = services;
+//	}
 
 	public boolean isEditMode() {
 		return editMode;
@@ -58,7 +73,7 @@ public class ClientBean {
 			context.addMessage("client", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Veuillez saisir les valeurs non nulles", null));
 		}
 		client = new Client();
-		return "index";
+		return "accueilConseiller";
 	}
 
 	public Collection<Client> list() {
