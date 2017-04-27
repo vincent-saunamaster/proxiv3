@@ -12,10 +12,10 @@ public interface IConseillerClientService {
 	public void addClient(Client cl);
 	public void majClient(Client cl);
 	public void deleteClient(Client cl);
-	public void infoClient(int idclient);
 	public Collection<Client> listerClient();
-	public void simulerCreditConsommation(int montant);
-	public void simulerCreditImmobilier(int montant);
+	public Collection<Client> findClientByMC(String mc);
+//	public void simulerCreditConsommation(int montant);
+//	public void simulerCreditImmobilier(int montant);
 	public void virement(Compte crediteur, Compte debiteur, float somme);
 
 }

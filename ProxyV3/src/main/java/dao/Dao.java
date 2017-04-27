@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import metier.Client;
 import metier.ConseillerClient;
@@ -43,11 +44,16 @@ public class Dao implements IDao {
 	}
 
 	@Override
-	public Client findClientById(long idClient) {
+	public Collection<Client> findClientByMC(String mc) {
 		EntityManager em = emf.createEntityManager();
-		Client client = em.find(Client.class, idClient);
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Query q1 = em.createNamedQuery("Client.findByMC");
+		q1.setParameter("etiquette1", "%" + mc + "%");
+		q1.setParameter("etiquette2", "%" + mc + "%");
+		Collection<Client> clients = (Collection<Client>) q1.getResultList();
 		em.close();
-		return client;
+		return clients;
 	}
 
 	@Override

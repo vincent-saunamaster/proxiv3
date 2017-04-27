@@ -4,10 +4,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
+@NamedQueries({
+@NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
+@NamedQuery(name = "Client.findByMC", query = "SELECT c FROM Client c where c.nom LIKE :etiquette1 OR  c.prenom LIKE :etiquette2")})
 @DiscriminatorValue("CLIENT")
 public class Client extends Personne {
 

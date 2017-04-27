@@ -41,11 +41,6 @@ public class ConseillerClientService implements IConseillerClientService {
 		idao.deleteClient(c);
 	}
 
-	@Override
-	public void infoClient(int idclient) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Collection<Client> listerClient() {
@@ -54,22 +49,28 @@ public class ConseillerClientService implements IConseillerClientService {
 		
 	}
 
-	@Override
-	public void simulerCreditConsommation(int montant) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void simulerCreditImmobilier(int montant) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void simulerCreditConsommation(int montant) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void simulerCreditImmobilier(int montant) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void virement(Compte crediteur, Compte debiteur, float somme) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Collection<Client> findClientByMC(String mc) {
+		// TODO Auto-generated method stub
+		return idao.findClientByMC(mc);
 	}
 
 }

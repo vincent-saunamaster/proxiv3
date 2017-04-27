@@ -11,7 +11,7 @@ public interface IDao {
 	public void deleteClient(Client c);
 	public void majClient(Client cl);
 	public Collection<Client> listClients();
-	public Client findClientById(long idClient);
+	public Collection<Client> findClientByMC(String mc);
 	public Collection<Client> listerClient();
 	public ConseillerClient authentification(String login, int password);
 }
