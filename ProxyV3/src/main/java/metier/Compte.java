@@ -32,5 +32,29 @@ public abstract class Compte {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	public int getNumerocompte() {
+		return numerocompte;
+	}
+	public void setNumerocompte(int numerocompte) {
+		this.numerocompte = numerocompte;
+	}
+	public int getSolde() {
+		return solde;
+	}
+	public void setSolde(int solde) {
+		this.solde = solde;
+	}
+	public int getDateOuverture() {
+		return dateOuverture;
+	}
+	public void setDateOuverture(int dateOuverture) {
+		this.dateOuverture = dateOuverture;
+	}
 	
 }

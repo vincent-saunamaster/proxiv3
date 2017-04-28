@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,7 +22,7 @@ public class Client extends Personne {
 	@ManyToOne(cascade=CascadeType.PERSIST)
 	private ConseillerClient conseiller;
 	private String typeClient;
-	@OneToMany(mappedBy="client")
+	@OneToMany(mappedBy="client", fetch=FetchType.EAGER)
 	private Collection<Compte> comptes= new ArrayList<Compte>();
 	
 	public String getTypeClient() {

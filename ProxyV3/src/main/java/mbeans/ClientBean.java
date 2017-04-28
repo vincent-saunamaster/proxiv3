@@ -29,15 +29,15 @@ public class ClientBean implements Serializable {
 	// placeholder
 	private Client client = new Client();
 
-	private AuthentificationBean auth;
+	private ConseillerBean auth;
 
 	private boolean editMode;
 
-	public AuthentificationBean getAuth() {
+	public ConseillerBean getAuth() {
 		return auth;
 	}
 
-	public void setAuth(AuthentificationBean auth) {
+	public void setAuth(ConseillerBean auth) {
 		this.auth = auth;
 	}
 

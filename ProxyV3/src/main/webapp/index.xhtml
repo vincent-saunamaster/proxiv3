@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<h:html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Authentification</title>
-	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
-<body>
-	<h:form>
-		<h:messages errorClass="error" />
-		<h:panelGrid columns="2" cellpadding="5">
-			<h:outputLabel value="login" />
-			<h:inputText id="login" value="#{authentification.conseiller.login}" />
-			<h:outputLabel value="password" />
-			<h:inputSecret id="password" value="#{authentification.conseiller.password}" />
-		</h:panelGrid>
-		<h:commandButton action="#{authentification.authentifie}"
-			value="authentifier" />
-		
-	</h:form>
-</body>
-</html>
+<h:body>
+	<p:panel header="Authentification">
+		<h:form>
+			<h:panelGrid columns="2" cellpadding="2">
+				<h:outputLabel for="#{userBean.login}" value="Identifiant" />
+				<h:inputText value="#{userBean.login}" label="Login"></h:inputText>
+
+				<h:outputLabel for="#{userBean.password}" value="Password" />
+				<h:inputSecret value="#{userBean.password}"></h:inputSecret>
+
+				<h:commandButton type="submit" value="Login"
+					action="#{userBean.logguer}"></h:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:panel>
+</h:body>
+</h:html>

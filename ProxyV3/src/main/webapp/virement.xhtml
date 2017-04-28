@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Virement</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<body>
+	<h:form>
+		<h:messages errorClass="error" />
+		<h:panelGrid columns="2" cellpadding="5">
+			<h:outputLabel value="crediteur" />
+			<h:inputText id="crediteur" value="" />
+			<h:outputLabel value="debiteur" />
+			<h:inputText id="debiteur" value="" />
+		</h:panelGrid>
+		<h:commandButton action="#{}"
+			value="chercher" />
+		
+	</h:form>
+</body>
+</html>

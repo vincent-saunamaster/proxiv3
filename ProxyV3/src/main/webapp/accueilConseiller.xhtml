@@ -1,94 +1,131 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Accueil Conseiller</title>
 	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 <body>
-	<h:form>
+
+	<h:form id="formDataTable">
+
 		<h:messages errorClass="error" />
-		<h:panelGrid columns="2" cellpadding="5">
-			<h:outputLabel value="nom" />
-			<h:inputText id="nom" value="#{clientBean.client.nom}" />
-			<h:outputLabel value="prenom" />
-			<h:inputText id="prenom" value="#{clientBean.client.prenom}" />
-			<h:outputLabel value="adresse" />
-			<h:inputText id="adresse" value="#{clientBean.client.adresse}" />
-			<h:outputLabel value="codePostal" />
-			<h:inputText id="codePostal" value="#{clientBean.client.codePostal}" />
-			<h:outputLabel value="ville" />
-			<h:inputText id="ville" value="#{clientBean.client.ville}" />
-			<h:outputLabel value="telephone" />
-			<h:inputText id="telephone" value="#{clientBean.client.telephone}" />
-			<h:outputLabel value="typeClient" />
-			<h:selectOneRadio id="typeClient"
-				value="#{clientBean.client.typeClient}">
-				<f:selectItem itemValue="particulier" itemLabel="Particulier" />
-				<f:selectItem itemValue="entreprise" itemLabel="Entreprise" />
-			</h:selectOneRadio>
-		</h:panelGrid>
-		<h:commandButton action="#{clientBean.add}"
-			value="#{clientBean.editMode ? 'Modifier':'Ajouter'}" />
+
+		<p:panel header="rechercher un client" style="width: 700;">
+			<h:form>
+				<h:panelGrid columns="3" cellpadding="2">
+					<h:outputLabel for="#{userBean.searchUser}" value="Nom" />
+					<h:inputText value="#{userBean.searchUser}" label="Nom"></h:inputText>
+					<h:commandButton type="submit" value="Chercher"
+						action="#{userBean.searchAUser}"></h:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+
 		<h2>Liste des clients</h2>
-		<h:dataTable value="#{authentification.conseiller.client}" var="c" border="1">
-			<h:column>
-				<f:facet name="header">Id</f:facet>
-				<h:outputText value="#{c.id}" />
-			</h:column>
+		<p:dataTable var="user" value="#{userBean.searchUsersResults}"
+			selection="#{userBean.selectedUser}" selectionMode="single"
+			style="width: 700" rowKey="#{user.id}" first="#{user.id}"
+			paginator="true" rows="5" editable="true">
 
-			<h:column>
-				<f:facet name="header">Nom</f:facet>
-				<h:outputText value="#{c.nom}" />
-			</h:column>
+			<p:ajax event="rowSelect" update=":formDataTable:userUpdateForm"
+				listener="#{userBean.onUserSelect}" />
 
-			<h:column>
-				<f:facet name="header">Prenom</f:facet>
-				<h:outputText value="#{c.prenom}" />
-			</h:column>
+			<p:column sortBy="#{user.nom}" filterBy="#{user.nom}">
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				<h:outputText value="#{user.id}" />
+			</p:column>
+			<p:column sortBy="#{user.nom}" filterBy="#{user.nom}">
+				<f:facet name="header">
+					<h:outputText value="Nom" />
+				</f:facet>
+				<h:outputText value="#{user.nom}" />
+			</p:column>
+			<p:column sortBy="#{user.prenom}" filterBy="#{user.prenom}">
+				<f:facet name="header">
+					<h:outputText value="Prenom" />
+				</f:facet>
+				<h:outputText value="#{user.prenom}" />
+			</p:column>
+			<p:column parser="date" sortBy="#{user.adresse}"
+				filterBy="#{user.adresse}">
+				<f:facet name="header">
+					<h:outputText value="Adresse" />
+				</f:facet>
+				<h:outputText value="#{user.adresse}">
+					<!-- <f:convertDateTime pattern="MM/dd/yyyy" /> -->
+				</h:outputText>
+			</p:column>
+			<p:column sortBy="#{user.codePostal}" filterBy="#{user.codePostal}">
+				<f:facet name="header">
+					<h:outputText value="Code Postal" />
+				</f:facet>
+				<h:outputText value="#{user.codePostal}" />
+			</p:column>
+			<p:column sortBy="#{user.ville}" filterBy="#{user.ville}">
+				<f:facet name="header">
+					<h:outputText value="Ville" />
+				</f:facet>
+				<h:outputText value="#{user.ville}" />
+			</p:column>
+			<p:column sortBy="#{user.telephone}" filterBy="#{user.telelphone}">
+				<f:facet name="header">
+					<h:outputText value="Téléphone" />
+				</f:facet>
+				<h:outputText value="#{user.telephone}" />
+			</p:column>
 
-			<h:column>
-				<f:facet name="header">Type</f:facet>
-				<h:outputText value="#{c.typeClient}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Adresse</f:facet>
-				<h:outputText value="#{c.adresse}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Code Postal</f:facet>
-				<h:outputText value="#{c.codePostal}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Ville</f:facet>
-				<h:outputText value="#{c.ville}" />
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">Téléphone</f:facet>
-				<h:outputText value="#{c.telephone}" />
-			</h:column>
+		</p:dataTable>
+		<p:panel id="userDetailsPanelId" header="infos client"
+			style="width: 700;" widgetVar="oneUser">
+			<h:panelGrid columns="2" cellpadding="2" id="userUpdateForm"
+				border="0">
+				<h:outputLabel for="#{userBean.selectedUser.id}" value="Id" />
+				<h:inputText value="#{userBean.selectedUser.id}" style="width: 100;"
+					readonly="true"></h:inputText>
 
-			<h:column>
-				<f:facet name="header">SUPPRIMER</f:facet>
-				<h:commandLink action="#{clientBean.delete}" value="Supprimer">
-					<f:setPropertyActionListener target="#{clientBean.client}"
-						value="#{c}" />
-				</h:commandLink>
-			</h:column>
-			<h:column>
-				<f:facet name="header">MAJ</f:facet>
-				<h:commandLink action="#{clientBean.maj}" value="Maj">
-					<f:setPropertyActionListener target="#{clientBean.client}"
-						value="#{c}" />
-				</h:commandLink>
-			</h:column>
-		</h:dataTable>
+				<h:outputLabel for="#{userBean.selectedUser.nom}" value="Nom" />
+				<h:inputText value="#{userBean.selectedUser.nom}" readonly="true"></h:inputText>
+
+				<h:outputLabel for="#{userBean.selectedUser.prenom}" value="Prenom" />
+				<h:inputText value="#{userBean.selectedUser.prenom}" readonly="true"></h:inputText>
+
+				<h:outputLabel for="#{userBean.selectedUser.adresse}"
+					value="Adresse" />
+				<h:inputText value="#{userBean.selectedUser.adresse}"
+					readonly="true"></h:inputText>
+
+				<h:outputLabel for="#{userBean.selectedUser.codePostal}"
+					value="Code Postal" />
+				<h:inputText value="#{userBean.selectedUser.codePostal}"
+					readonly="true">
+					<!-- <f:convertDateTime pattern="MM/dd/yyyy" /> -->
+				</h:inputText>
+
+				<h:outputLabel for="#{userBean.selectedUser.ville}" value="Ville" />
+				<h:inputText value="#{userBean.selectedUser.ville}" readonly="true"></h:inputText>
+
+				<h:outputLabel for="#{userBean.selectedUser.telephone}"
+					value="Telephone" />
+				<h:inputText value="#{userBean.selectedUser.telephone}"
+					readonly="true"></h:inputText>
+
+				<h:outputLabel for="#{userBean.selectedUser.typeClient}"
+					value="Type" />
+				<h:selectOneRadio value="#{userBean.selectedUser.typeClient}" readonly="true">
+					<f:selectItem itemValue="particulier" itemLabel="Particulier" />
+					<f:selectItem itemValue="entreprise" itemLabel="Entreprise" />
+				</h:selectOneRadio>
+
+			</h:panelGrid>
+		</p:panel>
+
 	</h:form>
+
 </body>
 </html>

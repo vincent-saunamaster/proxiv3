@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import metier.Client;
+import metier.Compte;
 import metier.ConseillerClient;
 
 public class Dao implements IDao {
@@ -85,18 +86,33 @@ public class Dao implements IDao {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
+		ConseillerClient leCons = null;
 		Query q1 = em.createNamedQuery("Conseiller.findByPWD");
 		q1.setParameter("etiquette1", cons.getLogin());
 		q1.setParameter("etiquette2", cons.getPassword());
 		try {
-			cons = (ConseillerClient) q1.getSingleResult();
+			leCons = (ConseillerClient) q1.getSingleResult();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		tx.commit();
 		em.close();
-		return cons;
+		return leCons;
+	}
+
+	@Override
+	public void virement(Compte crediteur, Compte debiteur, int somme) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		debiteur.setSolde(debiteur.getSolde()-somme);
+		crediteur.setSolde(crediteur.getSolde()+somme);
+		em.merge(debiteur);
+		em.merge(crediteur);
+		tx.commit();
+		em.close();
+		
 	}
 
 }

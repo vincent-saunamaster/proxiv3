@@ -16,6 +16,6 @@ public interface IConseillerClientService {
 	public Collection<Client> findClientByMC(String mc);
 //	public void simulerCreditConsommation(int montant);
 //	public void simulerCreditImmobilier(int montant);
-	public void virement(Compte crediteur, Compte debiteur, float somme);
+	public void virement(Compte crediteur, Compte debiteur, int somme);
 
 }
