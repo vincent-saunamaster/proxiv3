@@ -12,11 +12,11 @@
 		<h:messages errorClass="error" />
 		<h:panelGrid columns="2" cellpadding="5">
 			<h:outputLabel value="login" />
-			<h:inputText id="login" value="#{authentificationBean.conseiller.login}" />
+			<h:inputText id="login" value="#{authentification.conseiller.login}" />
 			<h:outputLabel value="password" />
-			<h:inputSecret id="password" value="#{authentificationBean.conseiller.password}" />
+			<h:inputSecret id="password" value="#{authentification.conseiller.password}" />
 		</h:panelGrid>
-		<h:commandButton action="#{authentificationBean.authentification}"
+		<h:commandButton action="#{authentification.authentifie}"
 			value="authentifier" />
 		
 	</h:form>

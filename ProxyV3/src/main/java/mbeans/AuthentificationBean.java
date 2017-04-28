@@ -10,7 +10,7 @@ import service.ConseillerClientService;
 import service.IConseillerClientService;
 
 //@Named
-@ManagedBean
+@ManagedBean(name = "authentification")
 @SessionScoped
 public class AuthentificationBean implements Serializable {
 
@@ -23,7 +23,7 @@ public class AuthentificationBean implements Serializable {
 	private IConseillerClientService service = new ConseillerClientService();
 
 	// @Inject
-	ConseillerClient conseiller;
+	ConseillerClient conseiller = new ConseillerClient();
 
 	public ConseillerClient getConseiller() {
 		return conseiller;
@@ -34,11 +34,9 @@ public class AuthentificationBean implements Serializable {
 	}
 
 	public AuthentificationBean() {
-		// @Inject
-		this.setConseiller(new ConseillerClient());
 	}
 
-	public String authentification() {
+	public String authentifie() {
 		if (!conseiller.getLogin().equalsIgnoreCase("") && !conseiller.getPassword().equalsIgnoreCase("")) {
 
 			/**

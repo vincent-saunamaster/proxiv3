@@ -1,5 +1,6 @@
 package mbeans;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
@@ -13,9 +14,14 @@ import service.ConseillerClientService;
 import service.IConseillerClientService;
 
 @ManagedBean
-//@Named
+// @Named
 @ViewScoped
-public class ClientBean {
+public class ClientBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// @Inject
 	private IConseillerClientService service = new ConseillerClientService();
@@ -23,13 +29,16 @@ public class ClientBean {
 	// placeholder
 	private Client client = new Client();
 
-	@ManagedProperty(value = "#{authentification}")
 	private AuthentificationBean auth;
 
 	private boolean editMode = false;
 
 	public AuthentificationBean getAuth() {
 		return auth;
+	}
+
+	public void setAuth(AuthentificationBean auth) {
+		this.auth = auth;
 	}
 
 	public Client getClient() {
@@ -76,12 +85,12 @@ public class ClientBean {
 		return "accueilConseiller";
 	}
 
-	public Collection<Client> list() {
-		
-		return auth.getConseiller().getClient();
-		
-		//return service.listerClient();
-	}
+//	public Collection<Client> list() {
+//
+//		return auth.getConseiller().getClient();
+//
+//		// return service.listerClient();
+//	}
 
 	public void delete() {
 		service.deleteClient(client);

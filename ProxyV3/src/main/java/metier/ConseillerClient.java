@@ -1,11 +1,12 @@
 package metier;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -18,8 +19,8 @@ public class ConseillerClient extends Personne {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Gerant gerant;
 
-	@OneToMany(mappedBy = "conseiller")
-	private List<Client> client = new ArrayList<Client>();
+	@OneToMany(mappedBy = "conseiller", fetch=FetchType.EAGER)
+	private Collection<Client> client = new ArrayList<Client>();
 	private String login;
 	private String password;
 
@@ -40,11 +41,11 @@ public class ConseillerClient extends Personne {
 		this.gerant = gerant;
 	}
 
-	public List<Client> getClient() {
+	public Collection<Client> getClient() {
 		return client;
 	}
 
-	public void setClient(List<Client> client) {
+	public void setClient(Collection<Client> client) {
 		this.client = client;
 	}
 
