@@ -102,7 +102,7 @@ public class UserManagerBean implements Serializable {
 			this.conseiller.setPassword(this.getPassword());
 			if (service.authentification(conseiller) != null) {
 				this.setConseiller(service.authentification(conseiller));
-				return "accueilConseiller";
+				return "accueilConseiller?faces-redirect=true";
 			} else {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage("login", new FacesMessage("Identifiants invalides"));
@@ -152,7 +152,7 @@ public class UserManagerBean implements Serializable {
 
 	/**
 	 * méthode qui supprime un client en BDD
-	 * @return
+	 * @return String vue
 	 */
 	public String removeUser() {
 		service.deleteClient(this.selectedUser);
@@ -161,7 +161,7 @@ public class UserManagerBean implements Serializable {
 
 	/**
 	 * méthode qui sélectionne l'objet client de la ligne sélectionnée 
-	 * @param event
+	 * @param event l'évènement
 	 */
 	public void rowSelect(SelectEvent event) {
 		selectedUser = (Client) event.getObject();
@@ -170,7 +170,7 @@ public class UserManagerBean implements Serializable {
 
 	/**
 	 * méthode qui sélectionne l'objet client
-	 * @param event
+	 * @param event l'évènement
 	 */
 	public void onUserSelect(SelectEvent event) {
 		this.selectedUser = (Client) event.getObject();
@@ -179,15 +179,19 @@ public class UserManagerBean implements Serializable {
 
 	/**
 	 * méthode qui déselectionne l'objet client
-	 * @param event
+	 * @param event l'évènement
 	 */
 	public void onUserUnselect(UnselectEvent event) {
 		selectedUser = null;
 	}
 	
+	/**
+	 * méthode qui tue la session
+	 * @return String vue
+	 */
 	public String deloggue(){
 		((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
-		return "index";
+		return "index?faces-redirect=true";
 	}
 
 }

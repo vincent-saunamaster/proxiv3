@@ -2,21 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Accueil Conseiller</title>
-	<h:outputStylesheet library="css" name="style.css" />
+	<!-- <h:outputStylesheet library="css" name="style.css" />-->
 </h:head>
 <body>
 
-
 	<h:form id="formDataTable">
-		<p align="right">
-			<h:outputText value="#{userBean.conseiller.nom}"></h:outputText>
-			<h:commandButton type="submit" value="se déconnecter"
-				action="#{userBean.deloggue}"></h:commandButton>
-		</p>
+		<div>
+			<Table width="100%">
+				<tr>
+					<td><h1>ProxiBanque V3.001</h1></td>
+					<td><p align="right">
+							<h:outputText value="#{userBean.conseiller.nom}"></h:outputText><br />
+							<h:commandButton type="submit" value="se déconnecter"
+								action="#{userBean.deloggue}"></h:commandButton>
+						</p></td>
+				</tr>
+			</Table>
+		</div>
+
 		<hr />
 		<h:messages errorClass="error" />
 
@@ -189,6 +197,8 @@
 		</p:panel>
 
 	</h:form>
-
+	<div>
+		<p>copyright @laurent chretien market</p>
+	</div>
 </body>
 </html>
