@@ -1,15 +1,27 @@
 package metier;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+@Entity
 @DiscriminatorValue("COMPTE_COURANT")
 public class CompteCourant extends Compte {
 
+	private String typeCompte = "courant"; 
 	private int decouverteAutorise = 1000;
+
+	
+	public CompteCourant() {
+		super();
+	}
 
 	public CompteCourant(int decouverteAutorise) {
 		super();
 		this.decouverteAutorise = decouverteAutorise;
+	}
+
+	public String getTypeCompte() {
+		return typeCompte;
 	}
 
 	public int getDecouverteAutorise() {

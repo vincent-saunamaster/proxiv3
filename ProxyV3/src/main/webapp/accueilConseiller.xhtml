@@ -10,8 +10,14 @@
 </h:head>
 <body>
 
-	<h:form id="formDataTable">
 
+	<h:form id="formDataTable">
+		<p align="right">
+			<h:outputText value="#{userBean.conseiller.nom}"></h:outputText>
+			<h:commandButton type="submit" value="se déconnecter"
+				action="#{userBean.deloggue}"></h:commandButton>
+		</p>
+		<hr />
 		<h:messages errorClass="error" />
 
 		<p:panel header="rechercher un client" style="width: 700;">
@@ -25,16 +31,15 @@
 			</h:form>
 		</p:panel>
 
-		<h2>Liste des clients</h2>
 		<p:dataTable var="user" value="#{userBean.searchUsersResults}"
 			selection="#{userBean.selectedUser}" selectionMode="single"
 			style="width: 700" rowKey="#{user.id}" first="#{user.id}"
-			paginator="true" rows="5" editable="true">
+			paginator="true" rows="10" editable="true">
 
 			<p:ajax event="rowSelect" update=":formDataTable:userUpdateForm"
 				listener="#{userBean.onUserSelect}" />
 
-			<p:column sortBy="#{user.nom}" filterBy="#{user.nom}">
+			<p:column sortBy="#{user.id}" filterBy="#{user.id}">
 				<f:facet name="header">
 					<h:outputText value="Id" />
 				</f:facet>
@@ -57,9 +62,8 @@
 				<f:facet name="header">
 					<h:outputText value="Adresse" />
 				</f:facet>
-				<h:outputText value="#{user.adresse}">
-					<!-- <f:convertDateTime pattern="MM/dd/yyyy" /> -->
-				</h:outputText>
+				<h:outputText value="#{user.adresse}" />
+
 			</p:column>
 			<p:column sortBy="#{user.codePostal}" filterBy="#{user.codePostal}">
 				<f:facet name="header">
@@ -81,48 +85,107 @@
 			</p:column>
 
 		</p:dataTable>
+
 		<p:panel id="userDetailsPanelId" header="infos client"
 			style="width: 700;" widgetVar="oneUser">
 			<h:panelGrid columns="2" cellpadding="2" id="userUpdateForm"
 				border="0">
-				<h:outputLabel for="#{userBean.selectedUser.id}" value="Id" />
-				<h:inputText value="#{userBean.selectedUser.id}" style="width: 100;"
-					readonly="true"></h:inputText>
+				<!-- <h:outputLabel for="#{userBean.selectedUser.id}" value="Id" /> -->
+				<h:inputHidden value="#{userBean.selectedUser.id}"
+					style="width: 100;" readonly="true"></h:inputHidden>
 
 				<h:outputLabel for="#{userBean.selectedUser.nom}" value="Nom" />
-				<h:inputText value="#{userBean.selectedUser.nom}" readonly="true"></h:inputText>
+				<h:inputText value="#{userBean.selectedUser.nom}"></h:inputText>
 
 				<h:outputLabel for="#{userBean.selectedUser.prenom}" value="Prenom" />
-				<h:inputText value="#{userBean.selectedUser.prenom}" readonly="true"></h:inputText>
+				<h:inputText value="#{userBean.selectedUser.prenom}"></h:inputText>
 
 				<h:outputLabel for="#{userBean.selectedUser.adresse}"
 					value="Adresse" />
-				<h:inputText value="#{userBean.selectedUser.adresse}"
-					readonly="true"></h:inputText>
+				<h:inputText value="#{userBean.selectedUser.adresse}"></h:inputText>
 
 				<h:outputLabel for="#{userBean.selectedUser.codePostal}"
 					value="Code Postal" />
-				<h:inputText value="#{userBean.selectedUser.codePostal}"
-					readonly="true">
+				<h:inputText value="#{userBean.selectedUser.codePostal}">
 					<!-- <f:convertDateTime pattern="MM/dd/yyyy" /> -->
 				</h:inputText>
 
 				<h:outputLabel for="#{userBean.selectedUser.ville}" value="Ville" />
-				<h:inputText value="#{userBean.selectedUser.ville}" readonly="true"></h:inputText>
+				<h:inputText value="#{userBean.selectedUser.ville}"></h:inputText>
 
 				<h:outputLabel for="#{userBean.selectedUser.telephone}"
 					value="Telephone" />
-				<h:inputText value="#{userBean.selectedUser.telephone}"
-					readonly="true"></h:inputText>
+				<h:inputText value="#{userBean.selectedUser.telephone}"></h:inputText>
 
 				<h:outputLabel for="#{userBean.selectedUser.typeClient}"
 					value="Type" />
-				<h:selectOneRadio value="#{userBean.selectedUser.typeClient}" readonly="true">
+				<h:selectOneRadio value="#{userBean.selectedUser.typeClient}">
 					<f:selectItem itemValue="particulier" itemLabel="Particulier" />
 					<f:selectItem itemValue="entreprise" itemLabel="Entreprise" />
 				</h:selectOneRadio>
 
 			</h:panelGrid>
+
+			<h:commandButton type="submit" value="Ajouter ce client"
+				action="#{userBean.addUser}"></h:commandButton>
+			<h:commandButton type="submit" value="Modifier ce client"
+				action="#{userBean.updateUser}"></h:commandButton>
+			<h:commandButton type="submit" value="Supprimer ce client"
+				action="#{userBean.removeUser}"></h:commandButton>
+
+			<p:dataTable var="userx" value="#{userBean.selectedUser.comptes}"
+				selection="#{userBean.selectedUser}" selectionMode="single"
+				style="width: 700" rowKey="#{userx.id}" first="#{userx.id}"
+				paginator="true" rows="10" editable="true">
+
+				<p:ajax event="rowSelect" update=":formDataTable:userUpdateForm"
+					listener="#{userBean.onUserSelect}" />
+
+				<p:column sortBy="#{userx.typeCompte}"
+					filterBy="#{userx.typeCompte}">
+					<f:facet name="header">
+						<h:outputText value="Type de compte" />
+					</f:facet>
+					<h:outputText value="#{userx.typeCompte}" />
+				</p:column>
+				<p:column sortBy="#{userx.numerocompte}"
+					filterBy="#{userx.numerocompte}">
+					<f:facet name="header">
+						<h:outputText value="Numéro de compte" />
+					</f:facet>
+					<h:outputText value="#{userx.numerocompte}" />
+				</p:column>
+				<p:column sortBy="#{userx.solde}" filterBy="#{userx.solde}">
+					<f:facet name="header">
+						<h:outputText value="Solde" />
+					</f:facet>
+					<h:outputText value="#{userx.solde}" />
+				</p:column>
+				<!-- 	<p:column sortBy="#{userx.decouverteAutorise}"
+					filterBy="#{userx.decouverteAutorise}">
+					<f:facet name="header">
+						<h:outputText value="Découvert autorisé" />
+					</f:facet>
+					<h:outputText value="#{userx.decouverteAutorise}" />
+				</p:column>
+				<p:column sortBy="#{userx.tauxRemuneration}"
+					filterBy="#{userx.tauxRemuneration}">
+					<f:facet name="header">
+						<h:outputText value="Taux de rémunération" />
+					</f:facet>
+					<h:outputText value="#{userx.tauxRemuneration}" /> 
+				</p:column>-->
+				<p:column sortBy="#{userx.dateOuverture}"
+					filterBy="#{userx.dateOuverture}">
+					<f:facet name="header">
+						<h:outputText value="Date d'ouverture" />
+					</f:facet>
+					<h:outputText value="#{userx.dateOuverture}" />
+				</p:column>
+
+
+			</p:dataTable>
+
 		</p:panel>
 
 	</h:form>

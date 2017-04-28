@@ -7,11 +7,15 @@ import javax.persistence.Entity;
 @DiscriminatorValue("COMPTE_EPARGNE")
 public class CompteEpargne extends Compte {
 
+	private String typeCompte = "épargne"; 
+	private int tauxRemuneration = 3;
+
 	public CompteEpargne() {
 		super();
 	}
-
-	private int tauxRemuneration = 3;
+	public String getTypeCompte() {
+		return typeCompte;
+	}
 
 	public int getTauxRemuneration() {
 		return tauxRemuneration;

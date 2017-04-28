@@ -7,6 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -26,8 +27,6 @@ public class UserManagerBean implements Serializable {
 	// @Inject
 	private IConseillerClientService service = new ConseillerClientService();
 
-	// @Inject
-
 	private String login;
 	private String password;
 	private String searchUser;
@@ -35,10 +34,12 @@ public class UserManagerBean implements Serializable {
 	private Client selectedUser;
 	ConseillerClient conseiller;
 
+	// constructeur
 	public UserManagerBean() {
 		conseiller = new ConseillerClient();
 	}
 
+	// getters/setters
 	public ConseillerClient getConseiller() {
 		return conseiller;
 	}
@@ -90,6 +91,11 @@ public class UserManagerBean implements Serializable {
 		this.searchUser = searchUser;
 	}
 
+	
+	/**
+	 * méthode qui vérifie le login/pwd en BDD et remplit le conseiller local des infos trouvés en BDD
+	 * @return String vue
+	 */
 	public String logguer() {
 		if (!this.getLogin().equalsIgnoreCase("") && !this.getPassword().equalsIgnoreCase("")) {
 			this.conseiller.setLogin(this.getLogin());
@@ -109,35 +115,79 @@ public class UserManagerBean implements Serializable {
 		}
 	}
 
+	/**
+	 *  méthode qui recherche un client à l'aide de mot clé
+	 * @return String vue
+	 */
 	public String searchAUser() {
 		String motcle = (this.searchUser == null) ? "" : this.searchUser.trim();
 		this.searchUsersResults = service.findClientByMC(motcle);
-		System.out.println("Notre liste contient: " + searchUsersResults.size());
+		// System.out.println("Notre liste contient: " +
+		// searchUsersResults.size());
 		return "accueilConseiller";
 	}
 
+	/**
+	 * méthode qui ajoute un utilisateur en BDD
+	 * @return String vue
+	 */
 	public String addUser() {
-		service.addClient(this.selectedUser);
-		return "accueilConseiller";
-	}
-	
-	public String updateUser() {
-		service.majClient(this.selectedUser);
+		if (!this.selectedUser.getNom().equalsIgnoreCase("") && !this.selectedUser.getPrenom().equalsIgnoreCase("")) {
+			this.selectedUser.setConseiller(this.conseiller);
+			service.addClient(this.selectedUser);
+		}
 		return "accueilConseiller";
 	}
 
+	/**
+	 * méthode qui met à jour un client en BDD
+	 * @return String vue
+	 */
+	public String updateUser() {
+		if (!this.selectedUser.getNom().equalsIgnoreCase("") && !this.selectedUser.getPrenom().equalsIgnoreCase("")) {
+			service.majClient(this.selectedUser);
+		}
+		return "accueilConseiller";
+	}
+
+	/**
+	 * méthode qui supprime un client en BDD
+	 * @return
+	 */
+	public String removeUser() {
+		service.deleteClient(this.selectedUser);
+		return "accueilConseiller";
+	}
+
+	/**
+	 * méthode qui sélectionne l'objet client de la ligne sélectionnée 
+	 * @param event
+	 */
 	public void rowSelect(SelectEvent event) {
 		selectedUser = (Client) event.getObject();
-		System.out.println("selectedUser = " + selectedUser.getId());
+		// System.out.println("selectedUser = " + selectedUser.getId());
 	}
 
+	/**
+	 * méthode qui sélectionne l'objet client
+	 * @param event
+	 */
 	public void onUserSelect(SelectEvent event) {
 		this.selectedUser = (Client) event.getObject();
-		System.out.println("selectedUser = " + selectedUser.getId());
+		// System.out.println("selectedUser = " + selectedUser.getId());
 	}
 
+	/**
+	 * méthode qui déselectionne l'objet client
+	 * @param event
+	 */
 	public void onUserUnselect(UnselectEvent event) {
 		selectedUser = null;
+	}
+	
+	public String deloggue(){
+		((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
+		return "index";
 	}
 
 }
