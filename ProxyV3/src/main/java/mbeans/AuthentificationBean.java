@@ -65,7 +65,7 @@ public class AuthentificationBean implements Serializable {
 				// session.setAttribute("password", conseiller.getPassword());
 				// session.setAttribute("attemptsCount", 0);
 
-				return "accueilConseiller";
+				return "accueilConseiller?faces-redirect=true";
 			} else {
 
 				// on augmente le compteur de fail

@@ -31,7 +31,7 @@ public class ClientBean implements Serializable {
 
 	private AuthentificationBean auth;
 
-	private boolean editMode = false;
+	private boolean editMode;
 
 	public AuthentificationBean getAuth() {
 		return auth;
@@ -64,11 +64,16 @@ public class ClientBean implements Serializable {
 	public void setEditMode(boolean editMode) {
 		this.editMode = editMode;
 	}
+	
 
-	public String add() {
+	public ClientBean() {
+		this.setEditMode(false);
+	}
+
+	public void add() {
 		if (!client.getNom().equalsIgnoreCase("") && !client.getPrenom().equalsIgnoreCase("")) {
 			if (editMode == false) {
-
+				
 				client.setConseiller(auth.getConseiller());
 
 				service.addClient(client);
@@ -82,15 +87,15 @@ public class ClientBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Veuillez saisir les valeurs non nulles", null));
 		}
 		client = new Client();
-		return "accueilConseiller";
+		//return "accueilConseiller";
 	}
 
-//	public Collection<Client> list() {
-//
-//		return auth.getConseiller().getClient();
-//
-//		// return service.listerClient();
-//	}
+	// public Collection<Client> list() {
+	//
+	// return auth.getConseiller().getClient();
+	//
+	// // return service.listerClient();
+	// }
 
 	public void delete() {
 		service.deleteClient(client);
@@ -98,6 +103,6 @@ public class ClientBean implements Serializable {
 	}
 
 	public void maj() {
-		editMode = true;
+		this.editMode = true;
 	}
 }
