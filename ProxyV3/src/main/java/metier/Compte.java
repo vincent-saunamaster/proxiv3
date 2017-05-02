@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE_COMPTE")
-public abstract class Compte {
+public class Compte {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,6 +47,7 @@ public abstract class Compte {
 	public int getSolde() {
 		return solde;
 	}
+
 	public void setSolde(int solde) {
 		this.solde = solde;
 	}
@@ -55,6 +56,14 @@ public abstract class Compte {
 	}
 	public void setDateOuverture(int dateOuverture) {
 		this.dateOuverture = dateOuverture;
+	}
+	
+	public void retirer(int somme) {
+		this.solde = this.solde - somme;
+	}
+
+	public void ajouter(int somme) {
+		this.solde = this.solde + somme;
 	}
 	
 }

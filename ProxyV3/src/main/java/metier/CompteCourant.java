@@ -7,10 +7,9 @@ import javax.persistence.Entity;
 @DiscriminatorValue("COMPTE_COURANT")
 public class CompteCourant extends Compte {
 
-	private String typeCompte = "courant"; 
+	private String typeCompte = "courant";
 	private int decouverteAutorise = 1000;
 
-	
 	public CompteCourant() {
 		super();
 	}
@@ -34,8 +33,15 @@ public class CompteCourant extends Compte {
 
 	@Override
 	public int getSolde() {
-		return super.getSolde() + decouverteAutorise;
+		return this.solde + this.decouverteAutorise;
+	}
 
+	public void retirer(int somme) {
+		this.solde = this.solde - somme;
+	}
+
+	public void ajouter(int somme) {
+		this.solde = this.solde + somme;
 	}
 
 }

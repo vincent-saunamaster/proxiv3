@@ -13,18 +13,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({
-@NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
-@NamedQuery(name = "Client.findByMC", query = "SELECT c FROM Client c where c.nom LIKE :etiquette1 OR c.prenom LIKE :etiquette2")})
+@NamedQueries({ @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c"),
+		@NamedQuery(name = "Client.findByMC", query = "SELECT c FROM Client c where c.nom LIKE :etiquette1 OR c.prenom LIKE :etiquette2") })
 @DiscriminatorValue("CLIENT")
 public class Client extends Personne {
 
-	@ManyToOne(cascade=CascadeType.PERSIST)
-	private ConseillerClient conseiller;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private Conseiller conseiller;
 	private String typeClient;
-	@OneToMany(mappedBy="client", fetch=FetchType.EAGER)
-	private Collection<Compte> comptes= new ArrayList<Compte>();
-	
+	@OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+	private Collection<Compte> comptes = new ArrayList<Compte>();
+
 	public String getTypeClient() {
 		return typeClient;
 	}
@@ -33,11 +32,11 @@ public class Client extends Personne {
 		this.typeClient = typeClient;
 	}
 
-	public ConseillerClient getConseiller() {
+	public Conseiller getConseiller() {
 		return conseiller;
 	}
 
-	public void setConseiller(ConseillerClient conseiller) {
+	public void setConseiller(Conseiller conseiller) {
 		this.conseiller = conseiller;
 	}
 

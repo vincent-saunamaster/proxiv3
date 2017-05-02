@@ -2,21 +2,19 @@ package service;
 
 import java.util.Collection;
 
-import javax.inject.Inject;
-
 import dao.Dao;
 import dao.IDao;
 import metier.Client;
 import metier.Compte;
-import metier.ConseillerClient;
+import metier.Conseiller;
 
-public class ConseillerClientService implements IConseillerClientService {
+public class ConseillerService implements IConseillerService {
 
 	// @Inject
 	private IDao idao = new Dao();
 
 	@Override
-	public ConseillerClient authentification(ConseillerClient cons) {
+	public Conseiller authentification(Conseiller cons) {
 		return idao.authentification(cons);
 		// TODO Auto-generated method stub
 
@@ -62,17 +60,23 @@ public class ConseillerClientService implements IConseillerClientService {
 	// }
 
 	@Override
-	public void virement(Compte crediteur, Compte debiteur, int somme) {
-
+	public String virement(Compte aDebiter, Compte aCrediter, int somme) {
+		String message = "";
 		if (somme <= 0) {
-System.out.println("montant négatif");
+			message = "montant demandé incorrect";
 		} else {
-			if (debiteur.getSolde() < somme) {
-				System.out.println("solde inférieur à somme");
+			if (aDebiter.getSolde() < somme) {
+				message = "Montant demandé supérieur au solde du compte à débiter";
 			} else {
-				idao.virement(crediteur, debiteur, somme);
+				if (aDebiter.equals(aCrediter)) {
+					message = "Compte à créditer et à débiter identique";
+				} else {
+					idao.virement(aDebiter, aCrediter, somme);
+				}
+
 			}
 		}
+		return message;
 
 	}
 

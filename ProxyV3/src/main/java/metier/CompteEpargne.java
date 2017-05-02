@@ -29,5 +29,14 @@ public class CompteEpargne extends Compte {
 		super();
 		this.tauxRemuneration = tauxRemuneration;
 	}
+	
+	@Override
+	public void retirer(int somme) {
+		this.solde = this.solde - somme;
+	}
+
+	public void ajouter(int somme) {
+		this.solde = this.solde + somme;
+	}
 
 }

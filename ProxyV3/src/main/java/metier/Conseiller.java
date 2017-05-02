@@ -12,9 +12,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "Conseiller.findByPWD", query = "SELECT c FROM ConseillerClient c where c.login=:etiquette1 AND c.password=:etiquette2")
+@NamedQuery(name = "Conseiller.findByPWD", query = "SELECT c FROM Conseiller c where c.login=:etiquette1 AND c.password=:etiquette2")
 @DiscriminatorValue("CONSEILLER")
-public class ConseillerClient extends Personne {
+public class Conseiller extends Personne {
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Gerant gerant;
@@ -24,11 +24,11 @@ public class ConseillerClient extends Personne {
 	private String login;
 	private String password;
 
-	public ConseillerClient() {
+	public Conseiller() {
 		super();
 	}
 
-	public ConseillerClient(String nom, String prenom, String adresse, String codePostale, String ville,
+	public Conseiller(String nom, String prenom, String adresse, String codePostale, String ville,
 			String telephone) {
 		super(nom, prenom, adresse, codePostale, ville, telephone);
 	}

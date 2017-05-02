@@ -12,17 +12,17 @@ import javax.persistence.OneToMany;
 public class Gerant extends Personne {
 
 	@OneToMany(mappedBy = "gerant")
-	Collection<ConseillerClient> conseillers = new ArrayList<ConseillerClient>();
+	Collection<Conseiller> conseillers = new ArrayList<Conseiller>();
 	private String nomAgence;
 	private String dateCreation;
 
 	// ---------------------------------------------------------
 
-	public Collection<ConseillerClient> getConseillers() {
+	public Collection<Conseiller> getConseillers() {
 		return conseillers;
 	}
 
-	public void setConseillers(Collection<ConseillerClient> conseillers) {
+	public void setConseillers(Collection<Conseiller> conseillers) {
 		this.conseillers = conseillers;
 	}
 
