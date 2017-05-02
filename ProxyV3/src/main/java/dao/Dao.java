@@ -3,6 +3,8 @@ package dao;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -11,8 +13,10 @@ import javax.persistence.Query;
 
 import metier.Client;
 import metier.Compte;
-import metier.ConseillerClient;
+import metier.Conseiller;
 
+@Named
+@ApplicationScoped
 public class Dao implements IDao {
 
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("proxiV3-pu");
@@ -22,7 +26,12 @@ public class Dao implements IDao {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.persist(c);
+		try {
+			em.merge(c);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		tx.commit();
 		em.close();
 	}
@@ -76,22 +85,28 @@ public class Dao implements IDao {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.merge(c);
+
+		try {
+			em.merge(c);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		tx.commit();
 		em.close();
 	}
 
 	@Override
-	public ConseillerClient authentification(ConseillerClient cons) {
+	public Conseiller authentification(Conseiller cons) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		ConseillerClient leCons = null;
+		Conseiller leCons = null;
 		Query q1 = em.createNamedQuery("Conseiller.findByPWD");
 		q1.setParameter("etiquette1", cons.getLogin());
 		q1.setParameter("etiquette2", cons.getPassword());
 		try {
-			leCons = (ConseillerClient) q1.getSingleResult();
+			leCons = (Conseiller) q1.getSingleResult();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,17 +117,18 @@ public class Dao implements IDao {
 	}
 
 	@Override
-	public void virement(Compte crediteur, Compte debiteur, int somme) {
+	public String virement(Compte aDebiter, Compte aCrediter, int somme) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		debiteur.setSolde(debiteur.getSolde()-somme);
-		crediteur.setSolde(crediteur.getSolde()+somme);
-		em.merge(debiteur);
-		em.merge(crediteur);
+		aDebiter.retirer(somme);
+		aCrediter.ajouter(somme);
+		em.merge(aDebiter);
+		em.merge(aCrediter);
 		tx.commit();
 		em.close();
-		
+		return "";
+
 	}
 
 }

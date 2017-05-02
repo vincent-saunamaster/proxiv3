@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Virement</title>
+	<!-- <h:outputStylesheet library="css" name="style.css" />-->
+</h:head>
+<body>
+
+	<h:form id="formConnection">
+
+		<div>
+			<Table style="width: 100%;">
+				<tr>
+					<td align="left"><h1>ProxiBanque V3.001</h1></td>
+					<td align="right"><p align="right">Bonjour, Mr.
+							<h:outputText value="#{userBean.conseiller.nom}"></h:outputText>
+							<br />
+							<h:commandButton type="submit" value="se déconnecter"
+								action="#{userBean.deloggue}"></h:commandButton>
+						</p></td>
+				</tr>
+			</Table>
+		</div>
+
+	</h:form>
+
+	<hr />
+	<h3 style="color: red;"><h:messages errorClass="error" /></h3>
+
+	<p:panel header="recapitulatif" style="width: 700;">
+		<h:form id="formDataTable">
+			<h:outputText value="Compte à débiter"></h:outputText>
+			<p:dataTable id="comptes" var="compte" value="#{userBean.ADebiter}"
+				style="width: 700">
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nom" />
+					</f:facet>
+					<h:outputText value="#{compte.client.nom}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Prenom" />
+					</f:facet>
+					<h:outputText value="#{compte.client.prenom}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Type de compte" />
+					</f:facet>
+					<h:outputText value="#{compte.typeCompte}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Numéro de compte" />
+					</f:facet>
+					<h:outputText value="#{compte.numerocompte}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Solde" />
+					</f:facet>
+					<h:outputText value="#{compte.solde}" />
+				</p:column>
+				<!-- 	<p:column sortBy="#{compte.decouverteAutorise}"
+					filterBy="#{compte.decouverteAutorise}">
+					<f:facet name="header">
+						<h:outputText value="Découvert autorisé" />
+					</f:facet>
+					<h:outputText value="#{compte.decouverteAutorise}" />
+				</p:column>
+				<p:column sortBy="#{compte.tauxRemuneration}"
+					filterBy="#{compte.tauxRemuneration}">
+					<f:facet name="header">
+						<h:outputText value="Taux de rémunération" />
+					</f:facet>
+					<h:outputText value="#{compte.tauxRemuneration}" /> 
+				</p:column>-->
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Date d'ouverture" />
+					</f:facet>
+					<h:outputText value="#{compte.dateOuverture}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+		<h:form id="formDataTable2">
+			<h:outputText value="Compte à créditer"></h:outputText>
+			<p:dataTable id="comptes" var="compte" value="#{userBean.ACrediter}"
+				style="width: 700">
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nom" />
+					</f:facet>
+					<h:outputText value="#{compte.client.nom}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Prenom" />
+					</f:facet>
+					<h:outputText value="#{compte.client.prenom}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Type de compte" />
+					</f:facet>
+					<h:outputText value="#{compte.typeCompte}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Numéro de compte" />
+					</f:facet>
+					<h:outputText value="#{compte.numerocompte}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Solde" />
+					</f:facet>
+					<h:outputText value="#{compte.solde}" />
+				</p:column>
+				<!-- 	<p:column sortBy="#{compte.decouverteAutorise}"
+					filterBy="#{compte.decouverteAutorise}">
+					<f:facet name="header">
+						<h:outputText value="Découvert autorisé" />
+					</f:facet>
+					<h:outputText value="#{compte.decouverteAutorise}" />
+				</p:column>
+				<p:column sortBy="#{compte.tauxRemuneration}"
+					filterBy="#{compte.tauxRemuneration}">
+					<f:facet name="header">
+						<h:outputText value="Taux de rémunération" />
+					</f:facet>
+					<h:outputText value="#{compte.tauxRemuneration}" /> 
+				</p:column>-->
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Date d'ouverture" />
+					</f:facet>
+					<h:outputText value="#{compte.dateOuverture}" />
+				</p:column>
+
+
+
+			</p:dataTable>
+
+		</h:form>
+
+	</p:panel>
+
+	<p:panel header="Montant du transfert" style="width: 700;">
+		<h:form id="formSomme">
+
+			<h:outputLabel for="#{userBean.somme}" value="Montant" />
+			<h:inputText value="#{userBean.somme}" required="true" requiredMessage="Veuillez entrer un Montant">
+
+			</h:inputText>
+			<h:commandButton id="virement" type="submit"
+				value="effectuer le virement" action="#{userBean.virement}"></h:commandButton>
+			<h:commandLink id="virementAnnuler" type="submit" value="annuler"
+				action="accueilConseiller?faces-redirect=true"></h:commandLink>
+		</h:form>
+
+	</p:panel>
+
+	<div>
+		<p>copyright @VS-TH Alliance</p>
+	</div>
+</body>
+</html>

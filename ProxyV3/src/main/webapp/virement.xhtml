@@ -1,24 +1,172 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Virement</title>
-	<h:outputStylesheet library="css" name="style.css" />
+	<!-- <h:outputStylesheet library="css" name="style.css" />-->
 </h:head>
 <body>
-	<h:form>
-		<h:messages errorClass="error" />
-		<h:panelGrid columns="2" cellpadding="5">
-			<h:outputLabel value="crediteur" />
-			<h:inputText id="crediteur" value="" />
-			<h:outputLabel value="debiteur" />
-			<h:inputText id="debiteur" value="" />
-		</h:panelGrid>
-		<h:commandButton action="#{}"
-			value="chercher" />
-		
+
+	<h:form id="formConnection">
+
+		<div>
+			<Table style="width: 100%;">
+				<tr>
+					<td align="left"><h1>ProxiBanque V3.001</h1></td>
+					<td align="right"><p align="right">Bonjour, Mr.
+							<h:outputText value="#{userBean.conseiller.nom}"></h:outputText>
+							<br />
+							<h:commandButton type="submit" value="se déconnecter"
+								action="#{userBean.deloggue}"></h:commandButton>
+						</p></td>
+				</tr>
+			</Table>
+		</div>
+
 	</h:form>
+
+	<hr />
+	<h3 style="color: red;"><h:messages errorClass="error" /></h3>
+
+	<h:form id="formSearch">
+		<p:panel header="rechercher un client à débiter" style="width: 700;">
+			<h:form>
+				<h:panelGrid columns="3" cellpadding="2">
+					<h:outputLabel for="#{userBean.searchUser}" value="Nom" />
+					<h:inputText value="#{userBean.searchUser}" label="Nom"></h:inputText>
+					<h:commandButton type="submit" value="Chercher"
+						action="#{userBean.searchAUser}"></h:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+	</h:form>
+	<h:form id="formDataTable">
+		<p:dataTable id="searchUserResult" var="user"
+			value="#{userBean.searchUsersResults}"
+			selection="#{userBean.selectedUser}" selectionMode="single"
+			style="width: 700" rowKey="#{user.id}" first="#{user.id}"
+			paginator="true" rows="5" editable="true">
+
+			<p:ajax event="rowSelect" update=":formComptes:comptes"
+				listener="#{userBean.onUserSelect}" />
+
+			<p:column sortBy="#{user.id}" filterBy="#{user.id}">
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				<h:outputText value="#{user.id}" />
+			</p:column>
+			<p:column sortBy="#{user.nom}" filterBy="#{user.nom}">
+				<f:facet name="header">
+					<h:outputText value="Nom" />
+				</f:facet>
+				<h:outputText value="#{user.nom}" />
+			</p:column>
+			<p:column sortBy="#{user.prenom}" filterBy="#{user.prenom}">
+				<f:facet name="header">
+					<h:outputText value="Prenom" />
+				</f:facet>
+				<h:outputText value="#{user.prenom}" />
+			</p:column>
+			<p:column sortBy="#{user.adresse}" filterBy="#{user.adresse}">
+				<f:facet name="header">
+					<h:outputText value="Adresse" />
+				</f:facet>
+				<h:outputText value="#{user.adresse}" />
+			</p:column>
+			<p:column sortBy="#{user.codePostal}" filterBy="#{user.codePostal}">
+				<f:facet name="header">
+					<h:outputText value="Code Postal" />
+				</f:facet>
+				<h:outputText value="#{user.codePostal}" />
+			</p:column>
+			<p:column sortBy="#{user.ville}" filterBy="#{user.ville}">
+				<f:facet name="header">
+					<h:outputText value="Ville" />
+				</f:facet>
+				<h:outputText value="#{user.ville}" />
+			</p:column>
+			<p:column sortBy="#{user.telephone}" filterBy="#{user.telephone}">
+				<f:facet name="header">
+					<h:outputText value="Téléphone" />
+				</f:facet>
+				<h:outputText value="#{user.telephone}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+
+	<p:panel id="userDetailsPanelId" header="infos comptes"
+		style="width: 700;" widgetVar="oneUser">
+
+
+		<h:form id="formComptes">
+			<p:dataTable id="comptes" var="compte"
+				value="#{userBean.selectedUser.comptes}"
+				selection="#{userBean.ADebiter}" selectionMode="single"
+				style="width: 700" rowKey="#{compte.id}" first="#{compte.id}"
+				editable="true">
+
+				<p:column sortBy="#{compte.typeCompte}"
+					filterBy="#{compte.typeCompte}">
+					<f:facet name="header">
+						<h:outputText value="Type de compte" />
+					</f:facet>
+					<h:outputText value="#{compte.typeCompte}" />
+				</p:column>
+				<p:column sortBy="#{compte.numerocompte}"
+					filterBy="#{compte.numerocompte}">
+					<f:facet name="header">
+						<h:outputText value="Numéro de compte" />
+					</f:facet>
+					<h:outputText value="#{compte.numerocompte}" />
+				</p:column>
+				<p:column sortBy="#{compte.solde}" filterBy="#{compte.solde}">
+					<f:facet name="header">
+						<h:outputText value="Solde" />
+					</f:facet>
+					<h:outputText value="#{compte.solde}" />
+				</p:column>
+				<!-- 	<p:column sortBy="#{compte.decouverteAutorise}"
+					filterBy="#{compte.decouverteAutorise}">
+					<f:facet name="header">
+						<h:outputText value="Découvert autorisé" />
+					</f:facet>
+					<h:outputText value="#{compte.decouverteAutorise}" />
+				</p:column>
+				<p:column sortBy="#{compte.tauxRemuneration}"
+					filterBy="#{compte.tauxRemuneration}">
+					<f:facet name="header">
+						<h:outputText value="Taux de rémunération" />
+					</f:facet>
+					<h:outputText value="#{compte.tauxRemuneration}" /> 
+				</p:column>-->
+				<p:column sortBy="#{compte.dateOuverture}"
+					filterBy="#{compte.dateOuverture}">
+					<f:facet name="header">
+						<h:outputText value="Date d'ouverture" />
+					</f:facet>
+					<h:outputText value="#{compte.dateOuverture}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<h:commandButton id="virement" type="submit"
+				value="choisir ce compte à débiter" action="virement2"></h:commandButton>
+			<h:commandLink id="virementAnnuler" type="submit" value="annuler"
+				action="accueilConseiller?faces-redirect=true"></h:commandLink>
+
+		</h:form>
+
+	</p:panel>
+
+	<div>
+		<p>copyright @VS-TH Alliance</p>
+	</div>
 </body>
 </html>

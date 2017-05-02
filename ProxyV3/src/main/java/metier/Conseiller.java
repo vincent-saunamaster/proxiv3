@@ -3,6 +3,7 @@ package metier;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.faces.bean.ManagedBean;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -10,11 +11,16 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-
+@ManagedBean
 @Entity
-@NamedQuery(name = "Conseiller.findByPWD", query = "SELECT c FROM ConseillerClient c where c.login=:etiquette1 AND c.password=:etiquette2")
+@NamedQuery(name = "Conseiller.findByPWD", query = "SELECT c FROM Conseiller c where c.login=:etiquette1 AND c.password=:etiquette2")
 @DiscriminatorValue("CONSEILLER")
-public class ConseillerClient extends Personne {
+public class Conseiller extends Personne{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Gerant gerant;
@@ -24,11 +30,11 @@ public class ConseillerClient extends Personne {
 	private String login;
 	private String password;
 
-	public ConseillerClient() {
+	public Conseiller() {
 		super();
 	}
 
-	public ConseillerClient(String nom, String prenom, String adresse, String codePostale, String ville,
+	public Conseiller(String nom, String prenom, String adresse, String codePostale, String ville,
 			String telephone) {
 		super(nom, prenom, adresse, codePostale, ville, telephone);
 	}

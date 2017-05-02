@@ -6,10 +6,11 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta charset="UTF-8" />
-	<title>Accueil Conseiller</title>
+	<title>Virement</title>
 	<!-- <h:outputStylesheet library="css" name="style.css" />-->
 </h:head>
 <body>
+
 	<h:form id="formConnection">
 
 		<div>
@@ -32,7 +33,7 @@
 	<h3 style="color: red;"><h:messages errorClass="error" /></h3>
 
 	<h:form id="formSearch">
-		<p:panel header="rechercher un client" style="width: 700;">
+		<p:panel header="rechercher un client à créditer" style="width: 700;">
 			<h:form>
 				<h:panelGrid columns="3" cellpadding="2">
 					<h:outputLabel for="#{userBean.searchUser}" value="Nom" />
@@ -50,8 +51,7 @@
 			style="width: 700" rowKey="#{user.id}" first="#{user.id}"
 			paginator="true" rows="5" editable="true">
 
-			<p:ajax event="rowSelect"
-				update=":formModifyClient:userUpdateForm, :formComptes:comptes"
+			<p:ajax event="rowSelect" update=":formComptes:comptes"
 				listener="#{userBean.onUserSelect}" />
 
 			<p:column sortBy="#{user.id}" filterBy="#{user.id}">
@@ -72,7 +72,6 @@
 				</f:facet>
 				<h:outputText value="#{user.prenom}" />
 			</p:column>
-			<!-- parser="date" dans p:column -->
 			<p:column sortBy="#{user.adresse}" filterBy="#{user.adresse}">
 				<f:facet name="header">
 					<h:outputText value="Adresse" />
@@ -102,65 +101,13 @@
 	</h:form>
 
 
-	<p:panel id="userDetailsPanelId" header="infos client"
+	<p:panel id="userDetailsPanelId" header="infos comptes"
 		style="width: 700;" widgetVar="oneUser">
-		<h:form id="formModifyClient">
-			
-			<table style="border-spacing: 0px;">
-				<tr>
-					<td><h:panelGrid columns="2" cellpadding="2"
-							id="userUpdateForm" border="0">
-							<!-- <h:outputLabel for="#{userBean.selectedUser.id}" value="Id" /> -->
-							<h:inputHidden value="#{userBean.selectedUser.id}"
-								style="width: 100;" readonly="true"></h:inputHidden>
-							<h:outputLabel for="#{userBean.selectedUser.nom}" value="Nom" />
-							<h:inputText value="#{userBean.selectedUser.nom}"></h:inputText>
-							<h:outputLabel for="#{userBean.selectedUser.prenom}"
-								value="Prenom" />
-							<h:inputText value="#{userBean.selectedUser.prenom}"></h:inputText>
-							<h:outputLabel for="#{userBean.selectedUser.adresse}"
-								value="Adresse" />
-							<h:inputText value="#{userBean.selectedUser.adresse}"></h:inputText>
-							<h:outputLabel for="#{userBean.selectedUser.codePostal}"
-								value="Code Postal" />
-							<h:inputText value="#{userBean.selectedUser.codePostal}"></h:inputText>
-
-							<h:outputLabel for="#{userBean.selectedUser.ville}" value="Ville" />
-							<h:inputText value="#{userBean.selectedUser.ville}"></h:inputText>
-
-							<h:outputLabel for="#{userBean.selectedUser.telephone}"
-								value="Telephone" />
-							<h:inputText value="#{userBean.selectedUser.telephone}">
-								<!-- <f:convertDateTime pattern="MM/dd/yyyy" /> -->
-							</h:inputText>
-							<h:outputLabel for="#{userBean.selectedUser.typeClient}"
-								value="Type" />
-							<h:selectOneRadio value="#{userBean.selectedUser.typeClient}">
-								<f:selectItem itemValue="particulier" itemLabel="Particulier" />
-								<f:selectItem itemValue="entreprise" itemLabel="Entreprise" />
-							</h:selectOneRadio>
-
-
-						</h:panelGrid></td>
-					<td><h:commandButton id="add" type="submit"
-							value="Ajouter ce client" action="#{userBean.addUser}"></h:commandButton>
-						<h:commandButton id="update" type="submit"
-							value="Modifier ce client" action="#{userBean.updateUser}"></h:commandButton>
-
-						<h:commandButton id="delete" type="submit"
-							value="Supprimer ce client" action="#{userBean.removeUser}"></h:commandButton>
-
-						<h:commandButton id="virement" type="submit"
-							value="Virement de compte à compte"
-							action="virement?faces-redirect=true"></h:commandButton></td>
-				</tr>
-			</table>
-		</h:form>
 
 		<h:form id="formComptes">
 			<p:dataTable id="comptes" var="compte"
 				value="#{userBean.selectedUser.comptes}"
-				selection="#{userBean.compte}" selectionMode="single"
+				selection="#{userBean.ACrediter}" selectionMode="single"
 				style="width: 700" rowKey="#{compte.id}" first="#{compte.id}"
 				editable="true">
 
@@ -184,13 +131,12 @@
 					</f:facet>
 					<h:outputText value="#{compte.solde}" />
 				</p:column>
-				<!-- 
-				<p:column sortBy="#{compte.decouverteAutorise}"
+				<!-- 	<p:column sortBy="#{compte.decouverteAutorise}"
 					filterBy="#{compte.decouverteAutorise}">
 					<f:facet name="header">
 						<h:outputText value="Découvert autorisé" />
 					</f:facet>
-					<h:outputText value="#{compte.decouverteAutorise}"  />
+					<h:outputText value="#{compte.decouverteAutorise}" />
 				</p:column>
 				<p:column sortBy="#{compte.tauxRemuneration}"
 					filterBy="#{compte.tauxRemuneration}">
@@ -198,8 +144,7 @@
 						<h:outputText value="Taux de rémunération" />
 					</f:facet>
 					<h:outputText value="#{compte.tauxRemuneration}" /> 
-				</p:column>
-				 -->
+				</p:column>-->
 				<p:column sortBy="#{compte.dateOuverture}"
 					filterBy="#{compte.dateOuverture}">
 					<f:facet name="header">
@@ -208,9 +153,15 @@
 					<h:outputText value="#{compte.dateOuverture}" />
 				</p:column>
 
-
 			</p:dataTable>
+
+			<h:commandButton id="virement" type="submit"
+				value="choisir ce compte à créditer" action="virement3"></h:commandButton>
+			<h:commandLink id="virementAnnuler" type="submit" value="annuler"
+				action="accueilConseiller?faces-redirect=true"></h:commandLink>
+
 		</h:form>
+
 	</p:panel>
 
 	<div>

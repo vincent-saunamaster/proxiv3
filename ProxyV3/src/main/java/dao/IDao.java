@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import metier.Client;
 import metier.Compte;
-import metier.ConseillerClient;
+import metier.Conseiller;
 
 public interface IDao {
 
@@ -13,6 +13,6 @@ public interface IDao {
 	public void majClient(Client cl);
 	public Collection<Client> listerClient();
 	public Collection<Client> findClientByMC(String mc);
-	public ConseillerClient authentification(ConseillerClient cons);
-	public void virement(Compte crediteur, Compte debiteur, int somme);
+	public Conseiller authentification(Conseiller cons);
+	public String virement(Compte aDebiter, Compte aCrediter, int somme);
 }
